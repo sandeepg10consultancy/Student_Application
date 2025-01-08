@@ -558,7 +558,7 @@ private fun ChapterDialogBox(
 @Composable
 fun ChapterCompletionProgress(
     modifier: Modifier = Modifier,
-    progress: Float = 0.5f
+    progress: Float = 0.5f,
 ) {
     Canvas(
         modifier = modifier

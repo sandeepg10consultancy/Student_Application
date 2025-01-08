@@ -54,6 +54,7 @@ import com.studentapplication.studentapp.ui.theme.interFont
 import com.studentapplication.studentapp.ui.theme.openSansItalic
 import com.studentapplication.studentapp.ui.utills.BackArrowBox
 import com.studentapplication.studentapp.ui.utills.CommonButton
+import com.studentapplication.studentapp.ui.utills.DashedUploadMediaBox
 import com.studentapplication.studentapp.ui.utills.SmallCircle
 import com.studentapplication.studentapp.ui.utills.artGradient
 import com.studentapplication.studentapp.ui.utills.exelaGradient
@@ -206,77 +207,9 @@ fun AssessmentDetailsScreen(navController: NavHostController){
                                 )
                             )
                         }
-                        Box(
-                            modifier = Modifier
-                                .size(334.dp, 179.dp)
-                                .drawBehind {
-                                    drawRoundRect(
-                                        brush = artGradient,
-                                        size = size,
-                                        style = Stroke(
-                                            width = 0.95.dp.toPx(),
-                                            pathEffect = PathEffect.dashPathEffect(intervals = floatArrayOf(5.dp.toPx(), 5.dp.toPx()), phase = 0f)
-                                        ),
-                                        cornerRadius = CornerRadius(18.9.dp.toPx())
-                                    )
-                                },
-                            contentAlignment = Alignment.Center
-                        ){
-                            Column(
-                                modifier = Modifier.size(247.37.dp, 120.29.dp),
-                                verticalArrangement = Arrangement.SpaceBetween,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(5.dp)
-                                ){
-                                    Image(
-                                        painter = painterResource(R.drawable.upload),
-                                        contentDescription = "upload",
-                                        modifier = Modifier
-                                            .size(22.68.dp)
-                                    )
-                                    Text(
-                                        text = "Upload media",
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            fontSize = 17.01.sp,
-                                            lineHeight = 11.34.sp,
-                                            color = Color(0xFFFF6020)
-                                        )
-                                    )
-                                }
-                                Text(
-                                    text = "Click on the button or Drag and Drop files here ",
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        fontSize = 11.34.sp,
-                                        lineHeight = 11.34.sp,
-                                        letterSpacing = 0.14.sp,
-                                        color = Color(0xFF129193)
-                                    )
-                                )
-                                Box(
-                                    modifier = Modifier
-                                        .size(247.37.dp, 44.29.dp)
-                                        .clip(RoundedCornerShape(8.dp))
-                                        .background(color = Color(0xFF129193))
-                                        .clickable {
 
-                                        },
-                                    contentAlignment = Alignment.Center
-                                ){
-                                    Text(
-                                        text = "Browse Files",
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            fontSize = 14.sp,
-                                            lineHeight = 10.03.sp,
-                                            color = Color.White
-                                        )
-                                    )
-                                }
-                            }
+                        DashedUploadMediaBox()
 
-                        }
                         UploadingPdfDetailsBox()
 
                         UploadingVideoDetailsBox()

@@ -82,6 +82,7 @@ fun DashboardScreen(
         drawerState = drawerState,
         drawerContent = {
             ProfileDrawerContent(
+                navController = navController,
                 onClose = {
                     scope.launch {
                         drawerState.close()
@@ -767,6 +768,8 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
 
 @Composable
 fun ProfileDrawerContent(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
     onClose: () -> Unit
 ){
     val iconsList = listOf(
@@ -847,7 +850,7 @@ fun ProfileDrawerContent(
                     selected = false,
                     onClick = {
                         when(item.first){
-                            "Profile" -> { }
+                            "Profile" -> { navController.navigate(route = "profileScreen") }
                             "Student Performance" -> {  }
                             "Bookmarks" -> { }
                             "FAQ'S" -> { }

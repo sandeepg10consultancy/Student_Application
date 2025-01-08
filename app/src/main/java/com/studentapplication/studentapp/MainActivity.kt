@@ -10,7 +10,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.BookmarksScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreen
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreenEditing
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardScreen
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardViewModel
 import com.studentapplication.studentapp.ui.login.LoginAndRegisterScreen
@@ -35,7 +37,8 @@ class MainActivity : ComponentActivity() {
                 //DashedWave()
                 val navController = rememberNavController()
                 val viewModel: DashboardViewModel = viewModel()
-                ProfileScreen()
+                BookmarksScreen(navController)
+                //ProfileScreenEditing(navController)
                 //TopicDescriptionScreen(navController)
 //                DashboardScreen(
 //                    navController = navController,
@@ -93,6 +96,16 @@ fun MyApp(){
             DashboardScreen(
                 navController = navController,
                 viewModel = viewModel
+            )
+        }
+        composable( route = "profileScreen"){
+            ProfileScreen(
+                navController = navController,
+            )
+        }
+        composable( route = "profileEditScreen"){
+            ProfileScreenEditing(
+                navController = navController,
             )
         }
         composable(route = "topicListing"){

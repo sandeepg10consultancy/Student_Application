@@ -159,7 +159,12 @@ fun ChapterListingScreen(navController: NavHostController) {
                         }
                     }
 
-                    ChapterSearchBox(searchedChapter)
+                    ChapterSearchBox(
+                        shadowColor = Color(0xFFFFC8B3),
+                        iconColor = Color(0xFFFF804D),
+                        labelColor = Color(0xFFFF804D),
+                        searchedChapter = searchedChapter
+                    )
 
                     Box(
                         modifier = Modifier
@@ -355,14 +360,20 @@ private fun ChapterTopicCard(
 }
 
 @Composable
-private fun ChapterSearchBox(searchedChapter: MutableState<String>) {
+fun ChapterSearchBox(
+    modifier: Modifier = Modifier,
+    shadowColor: Color = Color(0xFFE6E5E5),
+    iconColor: Color = Color(0xFF129193),
+    labelColor: Color = Color(0xFF129193),
+    searchedChapter: MutableState<String>
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .height(50.dp)
             .width(386.dp)
             .drawBehind {
                 drawRoundRect(
-                    color = Color(0xFFFFC8B3),
+                    color = shadowColor,
                     topLeft = Offset(x = 0.dp.toPx(), y = 6.dp.toPx()),
                     size = size,
                     cornerRadius = CornerRadius(12.dp.toPx())
@@ -391,7 +402,7 @@ private fun ChapterSearchBox(searchedChapter: MutableState<String>) {
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 14.sp,
                         lineHeight = 11.2.sp,
-                        color = Color(0xFFFF804D)
+                        color = labelColor
                     )
                 )
             },
@@ -399,7 +410,7 @@ private fun ChapterSearchBox(searchedChapter: MutableState<String>) {
                 Icon(
                     painter = painterResource(R.drawable.search),
                     contentDescription = "search",
-                    tint = Color(0xFFFF804D),
+                    tint = iconColor,
                     modifier = Modifier
                         .size(15.dp)
                 )
@@ -407,7 +418,7 @@ private fun ChapterSearchBox(searchedChapter: MutableState<String>) {
             textStyle = MaterialTheme.typography.titleMedium.copy(
                 fontSize = 14.sp,
                 lineHeight = 11.2.sp,
-                color = Color(0xFFFF804D)
+                color = labelColor
             )
         )
     }

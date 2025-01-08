@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,6 +41,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -86,7 +89,7 @@ fun CommonButton(
                 )
             }
             .background(color = adjustedOuterBoxColor, shape = RoundedCornerShape(20.dp))
-            .padding(start = 5.dp, top = 3.dp)
+            .padding(horizontal = 5.dp, vertical = 3.dp)
             .clickable {
                 if (enabled) {
                     onClick()
@@ -110,7 +113,7 @@ fun CommonButton(
                     color = adjustedInnerBoxColor,
                     shape = RoundedCornerShape(20.dp)
                 )
-                .padding(start = 10.dp, top = 3.dp),
+                .padding(horizontal = 5.dp, vertical = 2.dp),
             contentAlignment = Alignment.Center
         ) {
             Box(
@@ -191,12 +194,13 @@ fun CommonButton(
 
 @Composable
 fun BackArrowBox(
+    modifier: Modifier = Modifier,
     boxColor: Color = Color(0xFF129193),
     shadowColor: Color = Color(0xFF056E70),
     iconColor: Color = Color.White,
     onClick: () -> Unit = { }) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(36.dp)
             .drawBehind {
                 val shadowOffsetY = 3.03.dp.toPx()
@@ -230,7 +234,7 @@ fun BackArrowBox(
 @Composable
 fun LoginScreenTextField(
     text: String,
-    labelText: String,
+    labelText: String = "",
     onValueChange: (String) -> Unit = { }
 ){
     OutlinedTextField(
@@ -537,5 +541,80 @@ fun ChapterListButton(
                 textAlign = TextAlign.Center,
             )
         }
+    }
+}
+
+@Composable
+fun DashedUploadMediaBox(modifier: Modifier = Modifier){
+    Box(
+        modifier = modifier
+            .size(334.dp, 179.dp)
+            .drawBehind {
+                drawRoundRect(
+                    brush = artGradient,
+                    size = size,
+                    style = Stroke(
+                        width = 0.95.dp.toPx(),
+                        pathEffect = PathEffect.dashPathEffect(intervals = floatArrayOf(5.dp.toPx(), 5.dp.toPx()), phase = 0f)
+                    ),
+                    cornerRadius = CornerRadius(18.9.dp.toPx())
+                )
+            },
+        contentAlignment = Alignment.Center
+    ){
+        Column(
+            modifier = Modifier.size(247.37.dp, 120.29.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ){
+                Image(
+                    painter = painterResource(R.drawable.upload),
+                    contentDescription = "upload",
+                    modifier = Modifier
+                        .size(22.68.dp)
+                )
+                Text(
+                    text = "Upload media",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 17.01.sp,
+                        lineHeight = 11.34.sp,
+                        color = Color(0xFFFF6020)
+                    )
+                )
+            }
+            Text(
+                text = "Click on the button or Drag and Drop files here ",
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontSize = 11.34.sp,
+                    lineHeight = 11.34.sp,
+                    letterSpacing = 0.14.sp,
+                    color = Color(0xFF129193)
+                )
+            )
+            Box(
+                modifier = Modifier
+                    .size(247.37.dp, 44.29.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(color = Color(0xFF129193))
+                    .clickable {
+
+                    },
+                contentAlignment = Alignment.Center
+            ){
+                Text(
+                    text = "Browse Files",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 14.sp,
+                        lineHeight = 10.03.sp,
+                        color = Color.White
+                    )
+                )
+            }
+        }
+
     }
 }
