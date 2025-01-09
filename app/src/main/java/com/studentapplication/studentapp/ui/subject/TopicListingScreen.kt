@@ -25,7 +25,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -45,7 +44,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -535,7 +533,8 @@ private fun ChapterDialogBox(
 
                     Spacer(modifier = Modifier.height(5.dp))
 
-                    ChapterCompletionProgress(
+                    ChapterScheduledProgress(
+                        trackColor = Color.White.copy(alpha = 0.9f),
                         progress = 1f
                     )
 
@@ -556,8 +555,9 @@ private fun ChapterDialogBox(
 }
 
 @Composable
-fun ChapterCompletionProgress(
+fun ChapterScheduledProgress(
     modifier: Modifier = Modifier,
+    trackColor: Color = Color(0xFFBEBEBE),
     progress: Float = 0.5f,
 ) {
     Canvas(
@@ -566,7 +566,7 @@ fun ChapterCompletionProgress(
             .fillMaxWidth()
     ) {
         drawRoundRect(
-            color = Color.White.copy(alpha = 0.9f),
+            color = trackColor,
             cornerRadius = CornerRadius(10.dp.toPx()),
             size = size
         )

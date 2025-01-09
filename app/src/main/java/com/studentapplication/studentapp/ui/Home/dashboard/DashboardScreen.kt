@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,8 +65,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import com.studentapplication.studentapp.ui.theme.nunitoFont
+import com.studentapplication.studentapp.ui.utills.CommonButton
 import kotlinx.coroutines.launch
 
 
@@ -78,6 +83,7 @@ fun DashboardScreen(
     val scrollState = rememberScrollState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
@@ -87,7 +93,7 @@ fun DashboardScreen(
                     scope.launch {
                         drawerState.close()
                     }
-                }
+                },
             )
         }
     ) {
@@ -295,6 +301,7 @@ fun DashboardScreen(
             ){
                 BottomNavigationBar(navController, viewModel)
             }
+
         }
     }
 
@@ -755,13 +762,6 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                 )
             )
         }
-//        if(selectedItem == "Home"){
-//            navController.navigate(route = "dashboard")
-//        }else if (selectedItem == "Calender"){
-//            navController.navigate(route = "dashboard")
-//        }else{
-//            navController.navigate(route = "dairyScreen")
-//        }
     }
 
 }
@@ -770,8 +770,10 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
 fun ProfileDrawerContent(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    onClose: () -> Unit
+    onClose: () -> Unit,
 ){
+    val showLogoutDialog = remember { mutableStateOf(false) }
+
     val iconsList = listOf(
         "Profile" to R.drawable.profile_icon,
         "My Performance" to R.drawable.performance,
@@ -852,10 +854,10 @@ fun ProfileDrawerContent(
                         when(item.first){
                             "Profile" -> { navController.navigate(route = "profileScreen") }
                             "Student Performance" -> {  }
-                            "Bookmarks" -> { }
-                            "FAQ'S" -> { }
+                            "Bookmarks" -> { navController.navigate(route = "bookmarksScreen") }
+                            "FAQ'S" -> { navController.navigate(route = "faqsScreen") }
                             "Privacy Policy" -> { }
-                            "Logout" -> {  }
+                            "Logout" -> { showLogoutDialog.value = true}
 
                         }
                     },
@@ -906,9 +908,176 @@ fun ProfileDrawerContent(
                 modifier = Modifier
                     .padding(start = 10.dp, top = 10.dp)
             )
+            if (showLogoutDialog.value){
+                Dialog(
+                    onDismissRequest = { showLogoutDialog.value = false}
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(390.dp, 279.dp)
+                            .clip(RoundedCornerShape(15.dp))
+                            .background(color = Color.White)
+                    ){
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Image(
+                                painter = painterResource(R.drawable.tiger),
+                                contentDescription = "tiger",
+                                modifier = Modifier
+                                    .size(96.5.dp, 107.dp)
+                            )
+                            Text(
+                                text = "Are you sure you want to log out?",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = Color.Black.copy(alpha = 0.8f),
+                                modifier = Modifier.fillMaxWidth(),
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(40.dp))
+                            Row(
+                                modifier = Modifier.padding(horizontal = 20.dp),
+                                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                            ){
+                                CommonButton(
+                                    modifier = Modifier
+                                        .height(60.dp)
+                                        .width(140.dp),
+                                    text = "Cancel",
+                                    textColor = Color(0xFF129193),
+                                    textStyle = MaterialTheme.typography.labelLarge.copy(
+                                        fontSize = 20.sp,
+                                        lineHeight = 28.96.sp
+                                    ),
+                                    outerBoxColor = Color(0xFFF9F9F9),
+                                    outerShadowColor = Color(0xFFD8D8D8),
+                                    innerBoxColor = Color.White,
+                                    innerShadowColor = Color(0xFFE1E1E1),
+                                    curvedBoxColor = Color(0xFFF9F9F9),
+                                    ovalColor = Color(0xFFF3F3F3),
+                                    onClick = {
+                                        showLogoutDialog.value = false
+                                    }
+                                )
+                                CommonButton(
+                                    modifier = Modifier
+                                        .size(170.dp, 60.dp),
+                                    text = "Yes",
+                                    textColor = Color.White,
+                                    textStyle = MaterialTheme.typography.labelLarge.copy(
+                                        fontSize = 20.sp,
+                                        lineHeight = 28.96.sp
+                                    ),
+                                    outerBoxColor = Color(0xFF068183),
+                                    outerShadowColor = Color(0xFF036465),
+                                    innerBoxColor = Color(0xFF129193),
+                                    innerShadowColor = Color(0xFF036465),
+                                    curvedBoxColor = Color(0xFF068183),
+                                    ovalColor = Color.White,
+                                    onClick = {
+
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+
+
+            }
         }
     }
 }
+
+@Composable
+fun CustomDialogAlternative(
+    onYesButtonClick: () -> Unit,
+    onCancel: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.4f)) // Dim background
+            .clickable(
+                onClick = onCancel,
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            )
+    ){
+
+            Box(
+                modifier = Modifier
+                    .size(390.dp, 279.dp)
+                    .clip(RoundedCornerShape(15.dp))
+                    .background(color = Color.White)
+                    .align(Alignment.Center)
+            ){
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Image(
+                        painter = painterResource(R.drawable.tiger),
+                        contentDescription = "tiger",
+                        modifier = Modifier
+                            .size(96.5.dp, 107.dp)
+                    )
+                    Text(
+                        text = "Are you sure you want to log out?",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Color.Black.copy(alpha = 0.8f),
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                    Spacer(modifier = Modifier.height(40.dp))
+                    Row(
+                        modifier = Modifier.padding(horizontal = 20.dp),
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    ){
+                        CommonButton(
+                            modifier = Modifier
+                                .size(170.dp, 60.dp),
+                            text = "Cancel",
+                            textColor = Color(0xFF129193),
+                            textStyle = MaterialTheme.typography.labelLarge.copy(
+                                fontSize = 20.sp,
+                                lineHeight = 28.96.sp
+                            ),
+                            outerBoxColor = Color(0xFFF9F9F9),
+                            outerShadowColor = Color(0xFFD8D8D8),
+                            innerBoxColor = Color.White,
+                            innerShadowColor = Color(0xFFE1E1E1),
+                            curvedBoxColor = Color(0xFFF9F9F9),
+                            ovalColor = Color(0xFFF3F3F3),
+                            onClick = onCancel
+                        )
+                        CommonButton(
+                            modifier = Modifier
+                                .size(170.dp, 60.dp),
+                            text = "Yes",
+                            textColor = Color.White,
+                            textStyle = MaterialTheme.typography.labelLarge.copy(
+                                fontSize = 20.sp,
+                                lineHeight = 28.96.sp
+                            ),
+                            outerBoxColor = Color(0xFF068183),
+                            outerShadowColor = Color(0xFF036465),
+                            innerBoxColor = Color(0xFF129193),
+                            innerShadowColor = Color(0xFF036465),
+                            curvedBoxColor = Color(0xFF068183),
+                            ovalColor = Color.White,
+                            onClick = onYesButtonClick
+                        )
+                    }
+                }
+            }
+    }
+}
+
+
 
 @Composable
 private fun ProfileBox() {

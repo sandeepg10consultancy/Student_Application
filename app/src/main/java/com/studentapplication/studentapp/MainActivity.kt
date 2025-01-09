@@ -11,10 +11,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.BookmarksScreen
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.FAQScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreenEditing
+import com.studentapplication.studentapp.ui.Home.dashboard.CustomDialogAlternative
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardScreen
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardViewModel
+import com.studentapplication.studentapp.ui.Home.notification.NotificationDetailsScreen
+import com.studentapplication.studentapp.ui.Home.notification.NotificationsScreen
 import com.studentapplication.studentapp.ui.login.LoginAndRegisterScreen
 import com.studentapplication.studentapp.ui.login.LoginScreen
 import com.studentapplication.studentapp.ui.login.account.ClassSelection
@@ -34,29 +38,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             StudentAppTheme {
-                //DashedWave()
+
                 val navController = rememberNavController()
                 val viewModel: DashboardViewModel = viewModel()
-                BookmarksScreen(navController)
-                //ProfileScreenEditing(navController)
-                //TopicDescriptionScreen(navController)
+
 //                DashboardScreen(
 //                    navController = navController,
 //                    viewModel = viewModel
 //                )
-                //ChapterListingScreen()
-//                TopicListingScreen(
-//                    navController = navController
-//                )
-                //ClassSelection()
-                //ProfileDetailsScreen()
+                NotificationDetailsScreen(navController)
                 //MyApp()
-                //AssessmentDetailsScreen(navController)
-                //PasswordScreen()
-                //OTPScreen()
-                //LoginScreen(navController = navController)
-                //RegisterScreen()
-                //LoginAndRegisterScreen()
+
             }
         }
     }
@@ -105,6 +97,16 @@ fun MyApp(){
         }
         composable( route = "profileEditScreen"){
             ProfileScreenEditing(
+                navController = navController,
+            )
+        }
+        composable( route = "bookmarksScreen"){
+            BookmarksScreen(
+                navController = navController,
+            )
+        }
+        composable( route = "faqsScreen"){
+            FAQScreen(
                 navController = navController,
             )
         }

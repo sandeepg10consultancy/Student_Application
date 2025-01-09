@@ -195,23 +195,31 @@ fun ClassSelection(navController: NavHostController) {
                 }
             }
         }
-        CommonButton(
-            text = "Save & Proceed",
-            textColor = Color.White,
-            outerBoxColor = Color(0xFF068183),
-            outerShadowColor = Color(0xFF036465),
-            innerBoxColor = Color(0xFF129193),
-            innerShadowColor = Color(0xFF036465),
-            curvedBoxColor = Color(0xFF068183),
-            ovalColor = Color.White,
-            enabled = selectedSection.value.isNotEmpty(),
-            onClick = {
-                allDoneDialog.value = true
-            },
+        Column(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 40.dp)
-        )
+                .padding(bottom = 50.dp)
+        ){
+            CommonButton(
+                text = "Save & Proceed",
+                textColor = Color.White,
+                textStyle = MaterialTheme.typography.labelLarge.copy(
+                    fontSize = 20.sp,
+                    lineHeight = 28.96.sp
+                ),
+                outerBoxColor = Color(0xFF068183),
+                outerShadowColor = Color(0xFF036465),
+                innerBoxColor = Color(0xFF129193),
+                innerShadowColor = Color(0xFF036465),
+                curvedBoxColor = Color(0xFF068183),
+                ovalColor = Color.White,
+                enabled = selectedSection.value.isNotEmpty(),
+                onClick = {
+                    allDoneDialog.value = true
+                },
+                //modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        }
         if (allDoneDialog.value){
             AllDoneDialogBox{ allDoneDialog.value = false }
             LaunchedEffect(Unit) {

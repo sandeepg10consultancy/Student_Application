@@ -1,5 +1,6 @@
 package com.studentapplication.studentapp.ui.Home.ModalDrawer
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,19 +18,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -39,7 +42,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.studentapplication.studentapp.R
-import com.studentapplication.studentapp.ui.subject.ChapterCompletionProgress
+import com.studentapplication.studentapp.ui.subject.ChapterScheduledProgress
 import com.studentapplication.studentapp.ui.subject.ChapterSearchBox
 import com.studentapplication.studentapp.ui.subject.ContentBox
 import com.studentapplication.studentapp.ui.subject.subjectChapterTextStyle
@@ -47,13 +50,15 @@ import com.studentapplication.studentapp.ui.theme.nunitoItalic
 import com.studentapplication.studentapp.ui.utills.BackArrowBox
 import com.studentapplication.studentapp.ui.utills.SmallCircle
 import com.studentapplication.studentapp.ui.utills.artGradient
-import com.studentapplication.studentapp.ui.utills.exelaGradient
+import com.studentapplication.studentapp.ui.utills.markedGradient
+import com.studentapplication.studentapp.ui.utills.pendingGradient
+import com.studentapplication.studentapp.ui.utills.submittedGradient
 
 @Composable
 fun BookmarksScreen(
     navController: NavHostController
 ){
-
+    val scrollState = rememberScrollState()
     val searchedChapter = remember { mutableStateOf("") }
     val subjectsList = listOf("Art", "Numeracy", "English", "Science")
     val selectedSubject = remember { mutableStateOf(subjectsList[0]) }
@@ -61,6 +66,7 @@ fun BookmarksScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 20.dp)
@@ -120,15 +126,26 @@ fun BookmarksScreen(
         }
         Column(
             modifier = Modifier
-                .padding(20.dp)
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ){
-            BookmarkedBox()
+            BookmarkedBox(
+                state = "schedule"
+            )
+            BookmarkedBox(
+                state = "In progress"
+            )
+            BookmarkedBox(
+                state = "completed"
+            )
         }
     }
 }
 
 @Composable
-private fun BookmarkedBox() {
+private fun BookmarkedBox(
+    state: String = ""
+) {
     Box(
         modifier = Modifier
             .height(152.dp)
@@ -143,7 +160,7 @@ private fun BookmarkedBox() {
             }
             .border(
                 width = 1.dp,
-                color = Color(0xFFE6E5E5).copy(alpha = 0.2f),
+                color = Color(0xFFE6E5E5).copy(alpha = 0.5f),
                 shape = RoundedCornerShape(12.dp)
             )
             .background(
@@ -155,7 +172,7 @@ private fun BookmarkedBox() {
         Column(
             modifier = Modifier
                 .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -198,37 +215,109 @@ private fun BookmarkedBox() {
                     color = Color(0xFFFF6020)
                 )
             )
-            Column(
-                modifier = Modifier
-                    .size(346.dp, 28.dp)
-            ) {
-                Row(
+            if (state == "schedule") {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                        .height(28.dp)
+                        .fillMaxWidth()
                 ) {
-                    Text(
-                        text = "Schedule on: 1st Jul 2024",
-                        style = TextStyle(
-                            fontFamily = nunitoItalic,
-                            fontWeight = FontWeight(400),
-                            fontSize = 12.sp,
-                            lineHeight = 9.6.sp,
-                            color = Color(0xFF2679B4)
-                        )
-                    )
-                    Image(
-                        painter = painterResource(R.drawable.scheduled_calendar),
-                        contentDescription = "calendar",
+                    Row(
                         modifier = Modifier
-                            .size(18.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "Schedule on: 1st Jul 2024",
+                            style = TextStyle(
+                                fontFamily = nunitoItalic,
+                                fontWeight = FontWeight(400),
+                                fontSize = 12.sp,
+                                lineHeight = 9.6.sp,
+                                color = Color(0xFF2679B4)
+                            )
+                        )
+                        Image(
+                            painter = painterResource(R.drawable.scheduled_calendar),
+                            contentDescription = "calendar",
+                            modifier = Modifier
+                                .size(18.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(5.dp))
+                    ChapterScheduledProgress(
+                        progress = 1f
                     )
                 }
-                Spacer(modifier = Modifier.height(5.dp))
-                ChapterCompletionProgress(
+            }else if (state == "In progress"){
+                ChapterStatusProgressBar(
+                    status = "In Progress",
+                    progress = 0.7f
+                )
+            } else {
+                ChapterStatusProgressBar(
+                    status = "Completed on: 1st Jul 2024 ",
                     progress = 1f
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun ChapterStatusProgressBar(
+    status:String,
+    progress: Float = 0.5f,
+){
+    var progressGradient = pendingGradient
+    var statusColor = Color(0xFFFFA043)
+    if (progress == 1f){
+        progressGradient = markedGradient
+        statusColor = Color(0xFF2D9549)
+    }
+    Column(
+        modifier = Modifier
+            .height(28.dp)
+            .fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = status,
+                style = TextStyle(
+                    fontFamily = nunitoItalic,
+                    fontWeight = FontWeight(400),
+                    fontSize = 12.sp,
+                    lineHeight = 9.6.sp,
+                    color = statusColor
+                )
+            )
+            Icon(
+                painter = painterResource(R.drawable.pending),
+                contentDescription = "calendar",
+                tint = statusColor,
+                modifier = Modifier
+                    .size(18.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(5.dp))
+        Canvas(
+            modifier = Modifier
+                .height(4.dp)
+                .fillMaxWidth()
+        ) {
+            drawRoundRect(
+                color = Color(0xFFBEBEBE),
+                cornerRadius = CornerRadius(10.dp.toPx()),
+                size = size
+            )
+            drawRoundRect(
+                brush = progressGradient,
+                cornerRadius = CornerRadius(10.dp.toPx()),
+                size = Size(size.width * progress, size.height)
+            )
         }
     }
 }

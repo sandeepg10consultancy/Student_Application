@@ -365,12 +365,13 @@ fun ChapterSearchBox(
     shadowColor: Color = Color(0xFFE6E5E5),
     iconColor: Color = Color(0xFF129193),
     labelColor: Color = Color(0xFF129193),
-    searchedChapter: MutableState<String>
+    searchedChapter: MutableState<String>,
+    placeholder: String = "Search your chapter here"
 ) {
     Box(
         modifier = modifier
             .height(50.dp)
-            .width(386.dp)
+            .fillMaxWidth()
             .drawBehind {
                 drawRoundRect(
                     color = shadowColor,
@@ -398,7 +399,7 @@ fun ChapterSearchBox(
             ),
             placeholder = {
                 Text(
-                    text = "Search your chapter here",
+                    text = placeholder,
                     style = MaterialTheme.typography.titleMedium.copy(
                         fontSize = 14.sp,
                         lineHeight = 11.2.sp,

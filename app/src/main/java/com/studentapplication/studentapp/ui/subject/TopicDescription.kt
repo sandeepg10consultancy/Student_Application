@@ -214,7 +214,7 @@ fun TopicDescriptionScreen(navController: NavHostController) {
                                     )
                                 }
                                 Spacer(modifier = Modifier.height(5.dp))
-                                ChapterCompletionProgress(progress = 0.6f)
+                                ChapterScheduledProgress(progress = 0.6f)
                             }
                         }
                     }
