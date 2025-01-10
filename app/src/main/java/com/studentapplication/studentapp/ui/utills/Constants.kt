@@ -27,7 +27,28 @@ val submittedGradient = Brush.linearGradient(
     end = Offset(Float.POSITIVE_INFINITY, 0f)
 )
 val markedGradient = Brush.linearGradient(
-    colors = listOf(Color(0xFF7BC144), Color(0xFF3B7D00),),
+    colors = listOf(Color(0xFF3B7D00),Color(0xFF7BC144),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+
+val blueGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFF0D438B), Color(0xFF1775F1),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val violetGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFF263057), Color(0xFF5268BD),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val specialGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFF214445), Color(0xFF53A8AB),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val pinkGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFFFB478D), Color(0xFFFDBF5C),),
     start = Offset(0f, 0f),
     end = Offset(Float.POSITIVE_INFINITY, 0f)
 )

@@ -186,7 +186,10 @@ fun DashboardScreen(
                             .background(
                                 color = Color(0xFF129193),
                                 shape = RoundedCornerShape(12.dp)
-                            ),
+                            )
+                            .clickable {
+                                navController.navigate(route = "notificationsScreen")
+                            },
                         contentAlignment = Alignment.Center
                     ){
                         Icon(
@@ -746,10 +749,10 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                         "Diary" -> "dairyScreen"
                         else -> "dashboard"
                     }
-//                    navController.navigate(destination) {
-//                        launchSingleTop = true
-//                        restoreState = true
-//                    }
+                    navController.navigate(destination) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
                 },
                 colors = NavigationBarItemColors(
                     selectedIconColor = Color.Transparent,
@@ -858,7 +861,6 @@ fun ProfileDrawerContent(
                             "FAQ'S" -> { navController.navigate(route = "faqsScreen") }
                             "Privacy Policy" -> { }
                             "Logout" -> { showLogoutDialog.value = true}
-
                         }
                     },
                     colors = NavigationDrawerItemDefaults.colors(

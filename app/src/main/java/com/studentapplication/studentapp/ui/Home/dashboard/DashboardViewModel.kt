@@ -46,17 +46,11 @@ class DashboardViewModel: ViewModel() {
         ),
     )
 
-    private val _selectedSection = MutableStateFlow<String>("Nursery - A")
-    val selectedSection: StateFlow<String> = _selectedSection
 
-    fun setSelectedIcon(newIcon: String){
-        if (_selectedIcon.value != newIcon) {
-            _selectedIcon.value = newIcon
+    fun setSelectedIcon(selectedIcon: String){
+        if (_selectedIcon.value != selectedIcon) {
+            _selectedIcon.value = selectedIcon
         }
-    }
-
-    fun setSelectedSection(text: String){
-        _selectedSection.value = text
     }
 
 }

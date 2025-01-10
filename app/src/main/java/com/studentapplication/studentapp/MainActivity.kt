@@ -10,6 +10,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.studentapplication.studentapp.ui.Calendar.CalendarScreen
+import com.studentapplication.studentapp.ui.Diary.DailyDiaryScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.BookmarksScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.FAQScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreen
@@ -41,12 +43,14 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 val viewModel: DashboardViewModel = viewModel()
+                DailyDiaryScreen(navController)
+                //CalendarScreen(navController,viewModel)
 
 //                DashboardScreen(
 //                    navController = navController,
 //                    viewModel = viewModel
 //                )
-                NotificationDetailsScreen(navController)
+                //NotificationDetailsScreen(navController)
                 //MyApp()
 
             }
@@ -108,6 +112,22 @@ fun MyApp(){
         composable( route = "faqsScreen"){
             FAQScreen(
                 navController = navController,
+            )
+        }
+        composable(route = "notificationsScreen"){
+            NotificationsScreen(
+                navController = navController
+            )
+        }
+        composable(route = "notificationDetails"){
+            NotificationDetailsScreen(
+                navController = navController
+            )
+        }
+        composable(route = "calendarScreen"){
+            CalendarScreen(
+                navController = navController,
+                viewModel = viewModel
             )
         }
         composable(route = "topicListing"){

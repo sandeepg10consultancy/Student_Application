@@ -1,6 +1,7 @@
 package com.studentapplication.studentapp.ui.Home.notification
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -184,6 +185,9 @@ private fun NotificationCard(
             }
             .clip(RoundedCornerShape(15.dp))
             .background(color = boxColor)
+            .clickable {
+                navController.navigate(route = "notificationDetails")
+            }
 
     ) {
         Row(
