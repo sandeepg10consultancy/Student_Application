@@ -14,6 +14,9 @@ import com.studentapplication.studentapp.ui.Calendar.CalendarScreen
 import com.studentapplication.studentapp.ui.Diary.DailyDiaryScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.BookmarksScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.FAQScreen
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.Performance.PerformanceScreen
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.Performance.SingleChapterPerformance
+import com.studentapplication.studentapp.ui.Home.ModalDrawer.Performance.SingleSubjectPerformance
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreenEditing
 import com.studentapplication.studentapp.ui.Home.dashboard.CustomDialogAlternative
@@ -43,7 +46,8 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 val viewModel: DashboardViewModel = viewModel()
-                DailyDiaryScreen(navController)
+                SingleChapterPerformance(navController = navController)
+                //DailyDiaryScreen(navController, viewModel)
                 //CalendarScreen(navController,viewModel)
 
 //                DashboardScreen(
@@ -124,8 +128,24 @@ fun MyApp(){
                 navController = navController
             )
         }
+        composable(route = "performanceScreen"){
+            PerformanceScreen(
+                navController = navController
+            )
+        }
+        composable(route = "singleSubjectPerformance"){
+            SingleSubjectPerformance(
+                navController = navController
+            )
+        }
         composable(route = "calendarScreen"){
             CalendarScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+        composable(route = "dailyDiaryScreen"){
+            DailyDiaryScreen(
                 navController = navController,
                 viewModel = viewModel
             )

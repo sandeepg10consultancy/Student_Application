@@ -746,7 +746,7 @@ fun BottomNavigationBar(navController: NavHostController, viewModel: DashboardVi
                     val destination = when (label) {
                         "Home" -> "dashboard"
                         "Calender" -> "calendarScreen"
-                        "Diary" -> "dairyScreen"
+                        "Daily Diary" -> "dailyDiaryScreen"
                         else -> "dashboard"
                     }
                     navController.navigate(destination) {
@@ -856,7 +856,7 @@ fun ProfileDrawerContent(
                     onClick = {
                         when(item.first){
                             "Profile" -> { navController.navigate(route = "profileScreen") }
-                            "Student Performance" -> {  }
+                            "My Performance" -> { navController.navigate(route = "performanceScreen") }
                             "Bookmarks" -> { navController.navigate(route = "bookmarksScreen") }
                             "FAQ'S" -> { navController.navigate(route = "faqsScreen") }
                             "Privacy Policy" -> { }

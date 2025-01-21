@@ -42,22 +42,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.studentapplication.studentapp.R
+import com.studentapplication.studentapp.ui.Home.dashboard.DashboardViewModel
 import com.studentapplication.studentapp.ui.theme.jostFont
 import com.studentapplication.studentapp.ui.utills.BackArrowBox
 import com.studentapplication.studentapp.ui.utills.exelaGradient
 
 @Composable
-fun DailyDiaryScreen(navController: NavHostController){
+fun DailyDiaryScreen(navController: NavHostController, viewModel: DashboardViewModel){
     val itemsList = listOf("All", "Homework", "Bring to school", "Special Request", "Notice", "Holiday Alert")
     var selectedItem by remember { mutableStateOf(itemsList[0]) }
     val messages = remember { mutableStateListOf(
@@ -76,7 +81,11 @@ fun DailyDiaryScreen(navController: NavHostController){
         ){
             TopSectionCard(
                 onClick = {isModelSheet.value = true},
-                navController
+                backButtonClick = {
+                    navController.navigate(route = "dashboard")
+                    viewModel.setSelectedIcon("Home")
+                },
+                navController = navController
             )
             Spacer(modifier = Modifier.height(20.dp))
             LazyRow(){
@@ -85,6 +94,16 @@ fun DailyDiaryScreen(navController: NavHostController){
                     Box(modifier = Modifier
                         .height(30.dp)
                         .padding(start = 10.dp)
+                        .drawBehind {
+                            if (isSelected) {
+                                drawRoundRect(
+                                    color = Color(0xFF056E70),
+                                    size = size,
+                                    topLeft = Offset(x = 0.dp.toPx(), y = 4.dp.toPx()),
+                                    cornerRadius = CornerRadius(15.dp.toPx())
+                                )
+                            }
+                        }
                         .background(
                             color = if (isSelected) Color(0xFF129193) else Color(0xFFF5F5F5),
                             shape = RoundedCornerShape(15.dp)
@@ -96,12 +115,12 @@ fun DailyDiaryScreen(navController: NavHostController){
                     ){
                         Text(
                             text = item,
-                            style = MaterialTheme.typography.labelMedium.copy(
-                                fontWeight = FontWeight(600),
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight(if (isSelected) 700 else 400),
                                 color = if (isSelected) Color.White else Color.Black.copy(alpha = 0.6f)
                             ),
                             modifier = Modifier
-                                .padding(start = 20.dp, end = 20.dp)
+                                .padding(start = 25.dp, end = 25.dp)
                         )
                     }
                 }
@@ -123,7 +142,7 @@ fun DailyDiaryScreen(navController: NavHostController){
                         fontWeight = FontWeight(400),
                         fontSize = 16.sp,
                         lineHeight = 23.12.sp,
-                        color = MaterialTheme.colorScheme.primary    //Color(0xFF1D1751)
+                        color = Color(0xFF1D1751)
                     )
                 )
             }
@@ -131,44 +150,41 @@ fun DailyDiaryScreen(navController: NavHostController){
             when(selectedItem){
                 itemsList[0] -> {
                     AllCards(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp))
+                        .align(Alignment.Start)
+                    )
                 }
                 itemsList[1] -> {
                     HomeworkCard(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp)
+                        .align(Alignment.Start)
                     )
                 }
                 itemsList[2] -> {
                     BringToSchool(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp)
+                        .align(Alignment.Start)
                     )
                 }
                 itemsList[3] -> {
                     SpecialRequest(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp)
+                        .align(Alignment.Start)
                     )
                 }
                 itemsList[4] -> {
                     NoticeCard(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp)
+                        .align(Alignment.Start)
                     )
                 }
                 itemsList[5] -> {
                     HolidayAlert(modifier = Modifier
-                        .align(Alignment.End)
-                        .padding(end = 10.dp)
+                        .align(Alignment.Start)
                     )
                 }
             }
             Spacer(modifier = Modifier.height(15.dp))
             MessagesList(
                 messages = messages,
-                modifier = Modifier.padding(start = 10.dp)
+                modifier = Modifier
+                    .padding(end = 10.dp)
+                    .align(Alignment.End)
             )
             Spacer(modifier = Modifier.height(120.dp))
         }
@@ -214,22 +230,25 @@ fun MessagesList(messages: List<String>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MessageBox(message: String){
+fun MessageBox(message: String, modifier: Modifier = Modifier){
     Row(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = modifier
+            .width(365.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.Top
     ){
-        Image(
-            painter = painterResource(R.drawable.profile_boy),
-            contentDescription = "profile",
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-        )
         Box(
             modifier = Modifier
-                .width(300.dp)
-                .clip(RoundedCornerShape(topEnd = 15.dp, bottomStart = 15.dp, bottomEnd = 15.dp))
+                .width(307.dp)
+                .drawBehind {
+                    drawRoundRect(
+                        color = Color(0xFF2679B4),
+                        size = size,
+                        topLeft = Offset(x = 6.dp.toPx(), y = 6.dp.toPx()),
+                        cornerRadius = CornerRadius(15.dp.toPx())
+                    )
+                }
+                .clip(RoundedCornerShape(topStart = 15.dp, bottomStart = 15.dp, bottomEnd = 15.dp))
                 .background(
                     color = Color(0xFFF0FDFF)
                 )
@@ -240,25 +259,29 @@ fun MessageBox(message: String){
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Vinay",
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        fontSize = 14.sp,
-                        lineHeight = 20.23.sp,
-                        color = Color(0xFFFF5B5B)
-                    )
+                    text = message,
+                    style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = message,
-                    style = TextStyle(
-                        fontFamily = jostFont,
-                        fontWeight = FontWeight(400),
-                        fontSize = 16.sp,
-                        lineHeight = 23.12.sp,
-                        color = Color.Black
-                    )
+                    text = "11:17 am",
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontSize = 12.sp,
+                        lineHeight = 15.sp,
+                        color = Color(0xFF1D1751)
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End
                 )
             }
         }
+
+        Image(
+            painter = painterResource(R.drawable.profile_boy),
+            contentDescription = "profile",
+            modifier = Modifier
+                .size(50.dp)
+                .clip(CircleShape)
+        )
     }
 }
 
@@ -283,7 +306,7 @@ fun MessageInputField(
                 .fillMaxWidth(0.84f)
                 .clip(RoundedCornerShape(25.dp))
                 .border(
-                    width = 2.dp,
+                    width = 1.07.dp,
                     brush = exelaGradient,
                     shape = RoundedCornerShape(25.dp)
                 ),
@@ -353,6 +376,8 @@ fun MessageInputField(
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.White,
                 unfocusedContainerColor = Color.White,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent
             )
         )
 
@@ -360,7 +385,7 @@ fun MessageInputField(
             modifier = Modifier
                 .size(46.93.dp)
                 .border(
-                    width = 2.dp,
+                    width = 1.07.dp,
                     brush = exelaGradient,
                     shape = CircleShape
                 )
@@ -378,7 +403,10 @@ fun MessageInputField(
 }
 
 @Composable
-private fun TopSectionCard(onClick: () -> Unit = {}, navController: NavHostController
+private fun TopSectionCard(
+    onClick: () -> Unit = {},
+    backButtonClick: () -> Unit = {},
+    navController: NavHostController,
 ) {
     Card(
         modifier = Modifier
@@ -403,9 +431,7 @@ private fun TopSectionCard(onClick: () -> Unit = {}, navController: NavHostContr
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                BackArrowBox(onClick = {
-                    navController.popBackStack()
-                })
+                BackArrowBox(onClick = backButtonClick)
                 Image(
                     painter = painterResource(R.drawable.students),
                     contentDescription = "icon",

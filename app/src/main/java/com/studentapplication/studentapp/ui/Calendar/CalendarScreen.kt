@@ -78,7 +78,8 @@ fun CalendarScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 BackArrowBox(onClick = {
-                    navController.popBackStack()
+                    navController.navigate(route = "dashboard")
+                    viewModel.setSelectedIcon("Home")
                 })
                 Text(
                     text = "Calendar",

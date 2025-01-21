@@ -9,12 +9,27 @@ val exelaGradient = Brush.linearGradient(
     start = Offset(0f, 0f),
     end = Offset(Float.POSITIVE_INFINITY, 0f)
 )
-
 val artGradient = Brush.linearGradient(
     colors = listOf(Color(0xFFFF6020),Color(0xFFFDC194),),
     start = Offset(0f, 0f),
     end = Offset(Float.POSITIVE_INFINITY, 0f)
 )
+val scienceGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFF2093C3),Color(0xFF93ECFF),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val englishGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFFE67E22), Color(0xFFFFC261)),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val generalGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFFDA5151), Color(0xFFF2C0C0)),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+
 
 val pendingGradient = Brush.linearGradient(
     colors = listOf(Color(0xFFE67E22), Color(0xFFFFC261)),
@@ -49,6 +64,11 @@ val specialGradient = Brush.linearGradient(
 )
 val pinkGradient = Brush.linearGradient(
     colors = listOf(Color(0xFFFB478D), Color(0xFFFDBF5C),),
+    start = Offset(0f, 0f),
+    end = Offset(Float.POSITIVE_INFINITY, 0f)
+)
+val detailsGradient = Brush.linearGradient(
+    colors = listOf(Color(0xFF53A8AB),Color(0xFF214445),),
     start = Offset(0f, 0f),
     end = Offset(Float.POSITIVE_INFINITY, 0f)
 )
