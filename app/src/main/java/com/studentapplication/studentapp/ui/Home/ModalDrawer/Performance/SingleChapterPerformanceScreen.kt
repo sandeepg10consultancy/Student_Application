@@ -30,7 +30,9 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -129,14 +131,44 @@ fun SingleChapterPerformance(navController: NavHostController){
             }
             Spacer(modifier = Modifier.height(20.dp))
             if (selectedItem.value == "Completed"){
-                CompletedAssignmentBox()
+                CompletedAssignmentBox(
+                    bgImage = R.drawable.assignment_land,
+                    shadowColor = Color(0xFF19610F)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                CompletedAssignmentBox(
+                    bgImage = R.drawable.assignment_mountain,
+                    shadowColor = Color(0xFF3E3925)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                CompletedAssignmentBox(
+                    bgImage = R.drawable.assignment_sky,
+                    shadowColor = Color(0xFF00839A)
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                CompletedAssignmentBox(
+                    bgImage = R.drawable.assignment_land,
+                    shadowColor = Color(0xFF19610F)
+                )
+            } else {
+                PendingAssignmentBox()
+                Spacer(modifier = Modifier.height(20.dp))
+                PendingAssignmentBox()
+                Spacer(modifier = Modifier.height(20.dp))
+                PendingAssignmentBox()
+                Spacer(modifier = Modifier.height(20.dp))
+                PendingAssignmentBox()
             }
+            Spacer(modifier = Modifier.height(50.dp))
         }
     }
 }
 
 @Composable
-private fun CompletedAssignmentBox() {
+private fun CompletedAssignmentBox(
+    bgImage: Int,
+    shadowColor: Color
+) {
     val labelStyle = TextStyle(
         fontFamily = nunitoFont,
         fontWeight = FontWeight(500),
@@ -155,7 +187,7 @@ private fun CompletedAssignmentBox() {
             .fillMaxWidth()
             .drawBehind {
                 drawRoundRect(
-                    color = Color(0xFF19610F),
+                    color = shadowColor,
                     size = size,
                     topLeft = Offset(x = 0.dp.toPx(), y = 6.dp.toPx()),
                     cornerRadius = CornerRadius(12.dp.toPx())
@@ -164,9 +196,19 @@ private fun CompletedAssignmentBox() {
             .clip(RoundedCornerShape(12.dp))
     ) {
         Image(
-            painter = painterResource(R.drawable.assignment_land),
+            painter = painterResource(bgImage),
             contentDescription = "image",
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .matchParentSize(),
+            contentScale = ContentScale.Crop
+        )
+        Box(modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color.Black.copy(alpha = 0f),Color.Black.copy(alpha = 0.5f))
+                )
+            )
         )
         Column(
             modifier = Modifier
@@ -231,6 +273,148 @@ private fun CompletedAssignmentBox() {
                 AssignmentStatusBox(
                     modifier = Modifier.width(101.dp),
                     status = "Submitted"
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text(
+                        text = "Created by",
+                        style = labelStyle
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "Teacher",
+                        style = valueStyle
+                    )
+                }
+                Column {
+                    Text(
+                        text = "Created On",
+                        style = labelStyle
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "22 August 2024",
+                        style = valueStyle
+                    )
+                }
+                Column {
+                    Text(
+                        text = "Deadline",
+                        style = labelStyle
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                    Text(
+                        text = "22 August 2024",
+                        style = valueStyle
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PendingAssignmentBox() {
+    val labelStyle = TextStyle(
+        fontFamily = nunitoFont,
+        fontWeight = FontWeight(500),
+        fontSize = 12.sp,
+        lineHeight = 9.6.sp,
+        color = Color(0xFF1D1751)
+    )
+    val valueStyle = MaterialTheme.typography.labelSmall.copy(
+        fontWeight = FontWeight(600),
+        lineHeight = 11.2.sp,
+        color = Color(0xFF129193)
+    )
+    Box(
+        modifier = Modifier
+            .height(152.dp)
+            .fillMaxWidth()
+            .drawBehind {
+                drawRoundRect(
+                    color = Color(0xFFE6E5E5),
+                    size = size,
+                    topLeft = Offset(x = 0.dp.toPx(), y = 6.dp.toPx()),
+                    cornerRadius = CornerRadius(12.dp.toPx())
+                )
+            }
+            .clip(RoundedCornerShape(12.dp))
+            .border(
+                width = 1.dp,
+                color = Color(0xFFE6E5E5).copy(alpha = 0.2f),
+                shape = RoundedCornerShape(12.dp)
+            )
+            .background(color = Color.White)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Text(
+                        text = "Assignment Name",
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            fontSize = 20.sp,
+                            lineHeight = 16.sp,
+                            color = Color(0xFF2093C3)
+                        )
+                    )
+                    Row(
+                        modifier = Modifier,
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        Text(
+                            text = "Science",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight(500),
+                                lineHeight = 11.2.sp,
+                                color = Color(0xFF129193)
+                            )
+                        )
+                        SmallCircle(
+                            dim = 4.dp,
+                            containerColor = Color(0xFF129193)
+                        )
+                        Text(
+                            text = "Topic-1",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight(500),
+                                lineHeight = 11.2.sp,
+                                color = Color(0xFF1D1751)
+                            )
+                        )
+                        SmallCircle(
+                            dim = 4.dp,
+                            containerColor = Color(0xFF129193)
+                        )
+                        Text(
+                            text = "Nursery-A",
+                            style = MaterialTheme.typography.labelSmall.copy(
+                                fontWeight = FontWeight(500),
+                                lineHeight = 11.2.sp,
+                                color = Color(0xFF129193)
+                            )
+                        )
+                    }
+                }
+                AssignmentStatusBox(
+                    modifier = Modifier.width(101.dp),
+                    status = "Pending"
                 )
             }
             Row(

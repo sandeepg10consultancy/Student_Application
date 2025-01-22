@@ -244,12 +244,14 @@ private fun EachSubjectPerformance(
 ) {
     Box(
         modifier = Modifier
-            .size(386.dp, 112.dp)
+            .height(112.dp)
+            .fillMaxWidth()
             .clickable { onClick() }
     ) {
         Box(
             modifier = Modifier
-                .size(386.dp, 76.dp)
+                .height(76.dp)
+                .fillMaxWidth()
                 .drawBehind {
                     drawRoundRect(
                         color = boxShadowColor,

@@ -19,7 +19,6 @@ import com.studentapplication.studentapp.ui.Home.ModalDrawer.Performance.SingleC
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.Performance.SingleSubjectPerformance
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreen
 import com.studentapplication.studentapp.ui.Home.ModalDrawer.ProfileScreenEditing
-import com.studentapplication.studentapp.ui.Home.dashboard.CustomDialogAlternative
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardScreen
 import com.studentapplication.studentapp.ui.Home.dashboard.DashboardViewModel
 import com.studentapplication.studentapp.ui.Home.notification.NotificationDetailsScreen
@@ -44,18 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             StudentAppTheme {
 
-                val navController = rememberNavController()
-                val viewModel: DashboardViewModel = viewModel()
-                SingleChapterPerformance(navController = navController)
-                //DailyDiaryScreen(navController, viewModel)
-                //CalendarScreen(navController,viewModel)
-
-//                DashboardScreen(
-//                    navController = navController,
-//                    viewModel = viewModel
-//                )
-                //NotificationDetailsScreen(navController)
-                //MyApp()
+                MyApp()
 
             }
         }
@@ -135,6 +123,11 @@ fun MyApp(){
         }
         composable(route = "singleSubjectPerformance"){
             SingleSubjectPerformance(
+                navController = navController
+            )
+        }
+        composable(route = "singleChapterPerformance"){
+            SingleChapterPerformance(
                 navController = navController
             )
         }
